@@ -18,19 +18,19 @@ func CheckArea(t *testing.T, shape Shape, want float64){
 
 func TestPerimeter(t *testing.T){
 
-	t.Run("caculating Rectangle", func(t *testing.T){
+	t.Run("calculating Rectangle", func(t *testing.T){
 		r := Rectangle{10.0, 10.0}
 		want := 40.0
 		CheckPerimeter(t, r, want)
 	})
 	
-	t.Run("caculating Circle", func(t *testing.T){
+	t.Run("calculating Circle", func(t *testing.T){
 		c := Circle{2.0}
 		want := 12.56
 		CheckPerimeter(t, c, want)
 	})
 
-	t.Run("caculating Triangle", func(t *testing.T){
+	t.Run("calculating Triangle", func(t *testing.T){
 		tri := Triangle{5.0, 5.0}
 		want := 15.0
 		CheckPerimeter(t, tri, want)
