@@ -1,11 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestCreateWallet(t *testing.T){
+	got := CreateWallet("Ziv", 80.0)
+	want := Wallet{"Ziv", 80.0}
+	assertCorrectMessage(t, got, want)
+}
+
+func TestWallet(t *testing.T){
+
 	tests := []struct{
 		Name string
 		Balance Bitcoin
@@ -18,22 +24,7 @@ func TestCreateWallet(t *testing.T){
 	for _, test := range(tests){
 		CreateWallet(test.Name, test.Balance)
 	}
-	
-	got := fmt.Sprintf("%v", Users) //Let struct turn into string
-	want := "[{Ziv 80.000000 BTC} {Zack 80.000000 BTC} {Zoe 80.000000 BTC}]"
-	assertCorrectMessage(t, got, want)
-}
 
-func TestWallet(t *testing.T){
-
-	assertError := func(t *testing.T, got error, want string){
-		if got == nil {
-			t.Error("Want an error but got nil")
-		}else if got.Error() != want{
-			t.Errorf("want '%s', but got '%s'", want, got)
-		}
-	}
-	
 	t.Run("Deposit", func(t *testing.T){
 		got := DepositWallet("Ziv", 20.0)
 		want := Bitcoin(100.0)
@@ -44,13 +35,6 @@ func TestWallet(t *testing.T){
 		got := WithdrawWallet("Ziv", 20.0)
 		want := Bitcoin(60.0)
 		assertCorrectMessage(t, got, want)
-	})
-
-	t.Run("Withdraw but not enough money", func(t *testing.T){
-		wallet := CreateWallet("Dumb", 20.0)
-		err := wallet.Withdraw(99.0)
-		assertCorrectMessage(t, wallet.Balance, Bitcoin(20.0))
-		assertError(t, err, "cannot withdraw, insufficient funds")
 	})
 }
 
