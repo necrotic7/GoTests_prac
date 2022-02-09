@@ -76,6 +76,7 @@ func CollectAllTail(numbers ...[]int)[]int{
 func CreateWallet(name string, balance Bitcoin) Wallet{
 	wallet := Wallet{Name: name, Balance: balance}
 	Users = append(Users, wallet)
+	
 	return wallet
 }
 
@@ -86,7 +87,7 @@ func DepositWallet(name string, money Bitcoin) Bitcoin{
 			wallet = Users[i]
 		}
 	}
-	wallet.Balance += money
+	wallet.Deposit(money)
 	return wallet.Balance
 }
 
@@ -97,9 +98,10 @@ func WithdrawWallet(name string, money Bitcoin) Bitcoin{
 			wallet = Users[i]
 		}
 	}
-	wallet.Balance -= money
+	wallet.Withdraw(money)
 	return wallet.Balance
 }
+
 
 func main(){
 }

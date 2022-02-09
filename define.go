@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type Shape interface{
 	Area() float64
@@ -53,9 +56,19 @@ type Wallet struct{
 var Users []Wallet
 type Bitcoin float64
 
+//Wallet Method
 func (w *Wallet) Deposit(money Bitcoin) Bitcoin{
 	w.Balance += money
 	return w.Balance
+}
+
+func (w *Wallet) Withdraw(money Bitcoin) error{
+	if money > w.Balance{
+		return errors.New("cannot withdraw, insufficient funds")
+	}
+
+	w.Balance -= money
+	return nil
 }
 
 type Stringer interface{
@@ -64,4 +77,17 @@ type Stringer interface{
 
 func (b Bitcoin) String() string{
 	return fmt.Sprintf("%f BTC", b)
+}
+
+type Dictionary map[string]string
+
+func (d Dictionary)Search(word string) string{
+	if d[word] != ""{
+		return d[word]
+	}
+	return "Not found"
+}
+
+func (d Dictionary)Add(key , value string){
+	d[key] = value
 }
