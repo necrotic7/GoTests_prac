@@ -22,6 +22,15 @@ func assertCorrectMessage(t *testing.T, got, want interface{}){
 	
 }
 
+func assertError (t *testing.T, got error, want string){
+	t.Helper()
+	if got == nil {
+		t.Error("Want an error but got nil")
+	}else if got.Error() != want{
+		t.Errorf("want '%s', but got '%s'", want, got)
+	}
+}
+
 func SayHi(name string) string{
 	if name == "" {
 		name = "World"

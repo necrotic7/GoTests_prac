@@ -25,14 +25,6 @@ func TestCreateWallet(t *testing.T){
 }
 
 func TestWallet(t *testing.T){
-
-	assertError := func(t *testing.T, got error, want string){
-		if got == nil {
-			t.Error("Want an error but got nil")
-		}else if got.Error() != want{
-			t.Errorf("want '%s', but got '%s'", want, got)
-		}
-	}
 	
 	t.Run("Deposit", func(t *testing.T){
 		got := DepositWallet("Ziv", 20.0)

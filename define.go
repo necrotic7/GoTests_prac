@@ -80,14 +80,60 @@ func (b Bitcoin) String() string{
 }
 
 type Dictionary map[string]string
+const (
+    ErrNotFound   = DictionaryErr("key not found")
+    ErrKeyExist = DictionaryErr("key already exist")
+)
 
-func (d Dictionary)Search(word string) string{
-	if d[word] != ""{
-		return d[word]
-	}
-	return "Not found"
+type DictionaryErr string
+
+func (e DictionaryErr) Error() string {
+    return string(e)
 }
 
-func (d Dictionary)Add(key , value string){
-	d[key] = value
+func (d Dictionary)Search(word string) (string, error){
+	if d[word] != ""{
+		return d[word], nil
+	}
+	return "", ErrNotFound
+}
+
+func (d Dictionary)Add(key , value string) error{
+	_, err := d.Search(key)
+
+	switch err{
+	case ErrNotFound:
+		d[key] = value
+	case nil:
+		return ErrKeyExist
+	default:
+		return err
+	}
+	return nil
+}
+
+func (d Dictionary)Update(key, value string){
+	_, err := d.Search(key)
+
+	switch err{
+	case ErrNotFound:
+		d.Add(key, value)
+		
+	case nil:
+		d[key] = value
+		
+	}
+}
+
+func (d Dictionary)Delete(key string) error{
+	_, err := d.Search(key)
+
+	switch err{
+	case ErrNotFound:
+		return ErrNotFound
+	case nil:
+		delete(d, key)
+		return nil
+	}
+	return err
 }
