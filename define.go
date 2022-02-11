@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-type Shape interface{
+type Shape interface{//該物件擁有以下兩個方法就可以實作這個介面
 	Area() float64
 	Perimeter() float64
 }
