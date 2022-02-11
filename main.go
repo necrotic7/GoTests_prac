@@ -1,7 +1,9 @@
 package main
 
 import (
-	
+	"fmt"
+	"io"
+	"os"
 	"reflect"
 	"testing"
 )
@@ -22,7 +24,7 @@ func assertCorrectMessage(t *testing.T, got, want interface{}){
 	
 }
 
-func assertError (t *testing.T, got error, want string){
+func assertError(t *testing.T, got error, want string){
 	t.Helper()
 	if got == nil {
 		t.Error("Want an error but got nil")
@@ -111,6 +113,11 @@ func WithdrawWallet(name string, money Bitcoin) Bitcoin{
 	return wallet.Balance
 }
 
+func Greet(writer io.Writer, name string){
+	fmt.Fprintf(writer, "Hello, %s", name)
+}
+
 
 func main(){
+	Greet(os.Stdout, "Ziv")
 }
